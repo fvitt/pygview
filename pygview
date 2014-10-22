@@ -1,0 +1,43 @@
+#! /usr/bin/env python
+
+from Tkinter import Tk
+from Plotter import plotter
+
+import sys, getopt
+import tkFileDialog
+
+root = Tk()
+root.update()
+root.withdraw()
+
+prog_name = sys.argv[0]
+argv = sys.argv[1:]
+
+initdir = None
+filepath = None
+
+try:
+    opts, args = getopt.getopt(argv,"hd:f:",["initdir=","filepath="])
+except getopt.GetoptError:
+    print prog_name+' -d <directory> -f <filepath>'
+    sys.exit(2)
+
+for opt, arg in opts:
+    if opt == '-h':
+        print prog_name+' -d <directory> -f <filepath>'
+        sys.exit()
+    elif opt in ("-d", "--dir"):
+        initdir = arg
+    elif opt in ("-f", "--filepath"):
+        filepath = arg
+
+if not filepath:
+    filepath = tkFileDialog.askopenfilename( parent=None, title='Open file to view...' , \
+                 initialdir=initdir, filetypes=[('netcdf','*.nc'),('netcdf4','*.nc4')] )
+
+if filepath:
+
+    myplotter = plotter(None, filepath, title=filepath)
+
+    myplotter.mainloop()
+
