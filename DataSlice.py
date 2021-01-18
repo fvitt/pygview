@@ -15,7 +15,7 @@ class dataslice():
         if dims.has_key('time') :
 
             self.units = fh.variables[varname].units
-            
+
             if dims.has_key('ncol') :
 
                 if fh.variables[varname].ndim == 3 :
@@ -29,7 +29,7 @@ class dataslice():
                 self.lat = numpy.ravel(fh.variables["lat"][:])
                 self.structured = False
 
-            if dims.has_key('lon') and dims.has_key('lat') :
+            elif dims.has_key('lon') and dims.has_key('lat') :
 
                 if fh.variables[varname].ndim == 4 :
                     self.data = fh.variables[varname][time_ndx,level_ndx,:,:]
@@ -100,7 +100,7 @@ def test():
     filepath = '../pygview_test_data/fv_10x15_test.cam.h0.0000-01-01-00000.nc'
 
     dslice = dataslice( filepath, 'V', time_ndx=0, level_ndx=18 )
-    
+
     print '         filepath : '+filepath
     print 'dslice.data.shape : ',dslice.data.shape
     print 'dslice.structured : ',dslice.structured
